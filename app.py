@@ -56,7 +56,7 @@ def chunk_and_send_message(title: str, content: str) -> None:
         title_chunked = f'{title}({index + 1})'
         print(f'타이틀: {title_chunked}\n메세지: {msg_chunked}\n메세지를 전송합니다. {index}')
 
-        # send_message(title_chunked, msg_chunked)
+        send_message(title_chunked, msg_chunked)
 
 
 @app.route('/', methods=['GET', 'POST'])
