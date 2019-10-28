@@ -2,9 +2,12 @@ import logging
 import time
 import re
 from typing import Dict, Optional
+from datetime import datetime
 
 from bs4 import BeautifulSoup
 from selenium import webdriver
+
+from letter import send_message
 
 logger = logging.getLogger(__name__)
 
@@ -52,7 +55,7 @@ class NewsCrawler:
 
             title = str(soup.find("h4").text)
             body_text = str(soup.find(id="newsEndContents").text)
-            body_text = re.sub(r"(\n)|(\r)|(\s\s)", "", body_text)
+            body_text = re.sub(r"(\n)|(\r)|(\s\s)", "    ", body_text)
 
             news_dict[title] = body_text
 
@@ -73,10 +76,18 @@ class NewsCrawler:
         time.sleep(1)
 
 
-def test_crawler():
-    nc = NewsCrawler()
-    d = nc.get_news()
+if __name__ == '__main__':
+    now = datetime.now()
 
-    for k, v in d.items():
-        print(k + " : " + v)
-        print("\n")
+    nc = NewsCrawler()
+    news = nc.get_news()
+
+    print(f'Parsed news count: {len(news)}')
+
+    for i, news_data in enumerate(news.items()):
+        index = i + 1
+        news_title, news_content = news_data
+
+        title = f'{now.strftime("%Y년 %m월 %d일")} e스포츠 LOL 인기순 TOP5 {index}번째 뉴스입니다.'
+        content = f'제목: {news_title}\n내용: {news_content}'
+        send_message(title, content)
