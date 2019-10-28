@@ -248,3 +248,6 @@ inapi/media
 
 # For submodules
 setup.cfg
+
+# other
+chromedriver

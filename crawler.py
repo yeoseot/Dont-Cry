@@ -20,8 +20,8 @@ class NewsCrawler:
             options.headless = True
             options.no_sandbox = True
             options.disable_dev_shm_usage = True
-            cls.driver = webdriver.Chrome("/home/ubuntu/chromedriver", options=options)
-            cls.driver.implicitly_wait(3)
+            cls.driver = webdriver.Chrome("./chromedriver", options=options)
+            cls.driver.implicitly_wait(10)
             cls.driver.get(cls.URL)
             return cls._news_crawling()
 
@@ -34,12 +34,10 @@ class NewsCrawler:
         news_dict: Dict[str, str] = {}
 
         cls.driver.find_element_by_xpath("//li[@data-id='lol']/a").click()
-        cls.driver.implicitly_wait(3)
-        time.sleep(1)
+        time.sleep(0.5)
 
         cls.driver.find_element_by_xpath("//li[@data-id='popular']/a").click()
-        cls.driver.implicitly_wait(3)
-        time.sleep(1)
+        time.sleep(0.5)
 
         news_count = len(cls.driver.find_elements_by_xpath("//div[@class='news_list']/ul/li"))
 
@@ -59,22 +57,26 @@ class NewsCrawler:
             news_dict[title] = body_text
 
             cls.driver.back()
-            cls.driver.implicitly_wait(3)
-            time.sleep(2)
-
+            time.sleep(1)
         cls.driver.quit()
         return news_dict
 
     @classmethod
     def _lol_popular(cls, i: int):
         cls.driver.find_element_by_xpath("//li[@data-id='lol']/a").click()
-        cls.driver.implicitly_wait(3)
-        time.sleep(1)
+        time.sleep(0.5)
 
         cls.driver.find_element_by_xpath("//li[@data-id='popular']/a").click()
-        cls.driver.implicitly_wait(3)
-        time.sleep(1)
+        time.sleep(0.5)
 
         cls.driver.find_element_by_xpath(f"//div[@class='news_list']/ul/li[{i}]/a").click()
-        cls.driver.implicitly_wait(3)
-        time.sleep(2)
+        time.sleep(1)
+
+
+def test_crawler():
+    nc = NewsCrawler()
+    d = nc.get_news()
+
+    for k, v in d.items():
+        print(k + " : " + v)
+        print("\n")
