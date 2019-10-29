@@ -7,7 +7,7 @@ from datetime import datetime
 from bs4 import BeautifulSoup
 from selenium import webdriver
 
-from letter import send_message
+from letter import chunk_and_send_message
 
 logger = logging.getLogger(__name__)
 
@@ -55,7 +55,7 @@ class NewsCrawler:
 
             title = str(soup.find("h4").text)
             body_text = str(soup.find(id="newsEndContents").text)
-            body_text = re.sub(r"(\n)|(\r)|(\s\s)", "    ", body_text)
+            body_text = re.sub(r"(\s\s)+", "\n", body_text)
 
             news_dict[title] = body_text
 
@@ -90,4 +90,4 @@ if __name__ == '__main__':
 
         title = f'[DONT-CRY]{now.strftime("%Y년 %m월 %d일")} e스포츠 LOL 인기순 TOP5 {index}번째 뉴스입니다.'
         content = f'제목: {news_title}\n내용: {news_content}'
-        send_message(title, content)
+        chunk_and_send_message(title, content)
