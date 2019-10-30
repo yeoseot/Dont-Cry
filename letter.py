@@ -47,8 +47,8 @@ def chunk_and_send_message(title: str, content: str) -> None:
     if len(title) > 15:
         title = title[:15] + '...'
 
-    for index, chunk in enumerate(range(0, len(content), 1600)):
-        msg_chunked = content[chunk:chunk + 1600]
+    for index, chunk in enumerate(range(0, len(content), 1500)):
+        msg_chunked = content[chunk:chunk + 1500]
         msg_chunked = msg_chunked
         title_chunked = f'{title}({index + 1})'
         print(f'타이틀: {title_chunked}\n메세지: {msg_chunked}\n메세지를 전송합니다. {index}')

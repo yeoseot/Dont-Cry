@@ -88,6 +88,6 @@ if __name__ == '__main__':
         index = i + 1
         news_title, news_content = news_data
 
-        title = f'[DONT-CRY]{now.strftime("%Y년 %m월 %d일")} e스포츠 LOL 인기순 TOP5 {index}번째 뉴스입니다.'
+        title = f'{now.strftime("%m/%d")} {index}번째 뉴스입니다.'
         content = f'제목: {news_title}\n내용: {news_content}'
         chunk_and_send_message(title, content)
