@@ -1,9 +1,4 @@
-import os
-
 from flask import Flask, request, render_template
-
-from dotenv import load_dotenv, find_dotenv
-from pythecamp import TheCampClient
 
 from letter import chunk_and_send_message
 
@@ -18,7 +13,9 @@ def hello():
         content = request.form['content']
         content = f'[{name}] {content}'
 
-        chunk_and_send_message(title, content)
+        trainee_mgr_seq = request.form['trainee_mgr_seq']
+
+        chunk_and_send_message(title, content, trainee_mgr_seq)
 
         return render_template('success.html')
 
