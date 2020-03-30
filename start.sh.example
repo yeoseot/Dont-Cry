@@ -1,0 +1,1 @@
+. /home/ubuntu/dist/dont-cry/.venv/bin/activate && cd /home/ubuntu/dist/dont-cry && flask run -h 0.0.0.0
