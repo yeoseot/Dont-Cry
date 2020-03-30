@@ -13,9 +13,7 @@ def hello():
         content = request.form['content']
         content = f'[{name}] {content}'
 
-        trainee_mgr_seq = request.form['trainee_mgr_seq']
-
-        chunk_and_send_message(title, content, trainee_mgr_seq)
+        chunk_and_send_message(title, content)
 
         return render_template('success.html')
 

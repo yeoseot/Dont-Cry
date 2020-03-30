@@ -19,10 +19,13 @@ def get_env_variable(var_name, default=None):
         return default
 
 
-def send_message(title: str, content: str, trainee_mgr_seq: any) -> None:
+def send_message(title: str, content: str) -> None:
     client = TheCampClient()
-    email = get_env_variable('DONT_CRY_EMAIL')
-    pw = get_env_variable('DONT_CRY_PW')
+
+    email = get_env_variable('THE_CAMP_EMAIL')
+    pw = get_env_variable('THE_CAMP_PW')
+    trainee_mgr_seq = get_env_variable('TRAINEE_MGR_SEQ')
+
     client.login(email, pw)
     client.write_letter(
         title=title,
@@ -34,7 +37,7 @@ def send_message(title: str, content: str, trainee_mgr_seq: any) -> None:
     return
 
 
-def chunk_and_send_message(title: str, content: str, trainee_mgr_seq: any) -> None:
+def chunk_and_send_message(title: str, content: str) -> None:
     content = content.replace('\r\n', '\n')
     content = content.replace('\r', '\n')
     content = content.replace('\n', '    ')
@@ -50,4 +53,4 @@ def chunk_and_send_message(title: str, content: str, trainee_mgr_seq: any) -> No
         title_chunked = f'{title}({index + 1})'
         print(f'타이틀: {title_chunked}\n메세지: {msg_chunked}\n메세지를 전송합니다. {index}')
 
-        send_message(title_chunked, msg_chunked, trainee_mgr_seq)
+        send_message(title_chunked, msg_chunked)

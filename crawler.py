@@ -91,5 +91,4 @@ if __name__ == '__main__':
         title = f'{now.strftime("%m/%d")} {index}번째 뉴스입니다.'
         content = f'제목: {news_title}\n내용: {news_content}'
 
-        # TODO: trainee_mgr_seq 필요함
         chunk_and_send_message(title, content)

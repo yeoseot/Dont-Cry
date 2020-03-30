@@ -237,7 +237,7 @@ inapi/setting/migration_test.py
 celerybeat-schedule
 
 # dotenv
-.env.*
+.env
 .envrc
 
 # sqlite
