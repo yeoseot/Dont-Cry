@@ -35,45 +35,23 @@ class NewsCrawler:
     @classmethod
     def _news_crawling(cls) -> Optional[Dict[str, str]]:
         news_dict: Dict[str, str] = {}
+        elements = cls.driver.find_elements_by_xpath('//li[@class="num1"]/dl/dt/a')
 
-        cls.driver.find_element_by_xpath("//li[@data-id='lol']/a").click()
-        time.sleep(0.5)
-
-        cls.driver.find_element_by_xpath("//li[@data-id='popular']/a").click()
-        time.sleep(0.5)
-
-        news_count = len(cls.driver.find_elements_by_xpath("//div[@class='news_list']/ul/li"))
-
-        loop = 5
-        if news_count < 5:
-            loop = news_count
-
-        for i in range(loop):
-            cls._lol_popular(i + 1)
-
+        for i in range(len(elements)):
+            cls.driver.find_elements_by_xpath('//li[@class="num1"]/dl/dt/a')[i].click()
             soup = BeautifulSoup(cls.driver.page_source, 'html.parser')
 
-            title = str(soup.find("h4").text)
-            body_text = str(soup.find(id="newsEndContents").text)
+            title = str(soup.find(id='articleTitle').text)
+            body_text = str(soup.find(id='articleBodyContents').text)
             body_text = re.sub(r"(\s\s)+", "\n", body_text)
 
-            news_dict[title] = body_text
-
+            time.sleep(1)
             cls.driver.back()
             time.sleep(1)
+            news_dict[title] = body_text
+
         cls.driver.quit()
         return news_dict
-
-    @classmethod
-    def _lol_popular(cls, i: int):
-        cls.driver.find_element_by_xpath("//li[@data-id='lol']/a").click()
-        time.sleep(0.5)
-
-        cls.driver.find_element_by_xpath("//li[@data-id='popular']/a").click()
-        time.sleep(0.5)
-
-        cls.driver.find_element_by_xpath(f"//div[@class='news_list']/ul/li[{i}]/a").click()
-        time.sleep(1)
 
 
 if __name__ == '__main__':
